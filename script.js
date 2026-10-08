@@ -1,30 +1,29 @@
 (function () {
-  // Mobile menu
+  var nav = document.querySelector('.nav');
   var burger = document.getElementById('burger');
   var menu = document.getElementById('menu');
   function setMenu(open) {
     menu.classList.toggle('open', open);
     burger.setAttribute('aria-expanded', String(open));
   }
-  burger.addEventListener('click', function () {
-    setMenu(!menu.classList.contains('open'));
-  });
-  menu.addEventListener('click', function (e) {
-    if (e.target.tagName === 'A') setMenu(false);
-  });
+  burger.addEventListener('click', function () { setMenu(!menu.classList.contains('open')); });
+  menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') setMenu(false); });
 
-  // Scroll progress bar
+  // Scroll progress + compact nav
   var bar = document.getElementById('progress');
-  window.addEventListener('scroll', function () {
+  function onScroll() {
     var h = document.documentElement;
-    bar.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
-  }, { passive: true });
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? h.scrollTop / max * 100 : 0) + '%';
+    nav.classList.toggle('small', h.scrollTop > 40);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
-  // Footer year
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Scroll reveal
-  var targets = document.querySelectorAll('.card, .feature, .mvv-item, .ph, .section-head, .contact-list li');
+  var targets = document.querySelectorAll('.card, .feature, .mvv-item, .ph, .section-head, .contact-list li, .step, .svc-row, .mosaic img, .chips li, .img-frame');
   targets.forEach(function (el) { el.classList.add('reveal'); });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -37,24 +36,24 @@
     targets.forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Quote form -> WhatsApp
+  // Quote form -> WhatsApp (contact page only)
   var form = document.getElementById('quoteForm');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var d = new FormData(form);
-    var ok = true;
-    ['name', 'phone'].forEach(function (n) {
-      var f = form.elements[n];
-      var bad = !String(d.get(n) || '').trim();
-      f.classList.toggle('err', bad);
-      if (bad) ok = false;
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = new FormData(form), ok = true;
+      ['name', 'phone'].forEach(function (n) {
+        var bad = !String(d.get(n) || '').trim();
+        form.elements[n].classList.toggle('err', bad);
+        if (bad) ok = false;
+      });
+      if (!ok) return;
+      var text = 'Hello St. Louis Auto Centre,\n' +
+        'Name: ' + d.get('name') + '\n' +
+        'Phone: ' + d.get('phone') + '\n' +
+        'Service: ' + d.get('service') + '\n' +
+        'Details: ' + (d.get('message') || '-');
+      window.open('https://wa.me/254725452734?text=' + encodeURIComponent(text), '_blank', 'noopener');
     });
-    if (!ok) return;
-    var text = 'Hello St. Louis Auto Centre,\n' +
-      'Name: ' + d.get('name') + '\n' +
-      'Phone: ' + d.get('phone') + '\n' +
-      'Service: ' + d.get('service') + '\n' +
-      'Details: ' + (d.get('message') || '-');
-    window.open('https://wa.me/254725452734?text=' + encodeURIComponent(text), '_blank', 'noopener');
-  });
+  }
 })();

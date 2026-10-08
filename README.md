@@ -1,14 +1,16 @@
 # St. Louis Auto Centre – Website
 
-Static, responsive site (HTML/CSS/JS, no build step) themed on the company logo: black, orange gradient and chrome silver.
+Multi-page static site (HTML/CSS/JS, no build step): `index`, `about`, `services`, `insurance`, `work`, `contact`.
+Theme follows the company logo: black, orange gradient and chrome silver.
 
 ## Deploy on GitHub Pages
-1. Create a repo and push these files to the `main` branch (root).
-2. Repo **Settings → Pages → Build and deployment**: Source = *Deploy from a branch*, Branch = `main`, folder = `/ (root)`.
-3. Your site goes live at `https://<username>.github.io/<repo>/`.
+1. Push everything in this folder to the root of the `main` branch of a repo.
+2. Settings → Pages → Source: *Deploy from a branch* → `main` / `(root)`.
+3. Live at `https://<username>.github.io/<repo>/`.
 
-## Customising
-- **Logo:** the logo is at `assets/logo.jpg` (used in the hero); you can also swap the inline SVG mark in `index.html` (`.brand-mark`) for `<img src="assets/logo.png" alt="St. Louis Auto Centre">`.
-- **Before/after photos:** replace the `.ph-box` placeholders in the *Our Work* section with `<img src="assets/your-photo.jpg" alt="...">`.
-- **Colours:** edit the variables at the top of `styles.css`.
-- **Contact details:** search `index.html` for `254725452734` and the email address.
+## Editing
+- Text lives directly in each `.html` file; colours are variables at the top of `styles.css`.
+- Photos and insurer logos are in `assets/img/`.
+- Before/after photos: replace the dashed placeholders in `work.html` with `<img src="assets/img/your-photo.jpg" alt="...">`.
+- Contact details: search for `254725452734` and the email address across the `.html` files.
+- Make sure the insurer logos are used with each insurer's permission.
