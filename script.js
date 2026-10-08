@@ -23,7 +23,7 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   // Scroll reveal
-  var targets = document.querySelectorAll('.card, .feature, .mvv-item, .ph, .section-head, .contact-list li, .step, .svc-row, .mosaic img, .chips li, .img-frame');
+  var targets = document.querySelectorAll('.card, .feature, .mvv-item, .ph, .section-head, .contact-list li, .step, .svc-row, .mosaic img, .chips li, .img-frame, .trust-card, .ba-card');
   targets.forEach(function (el) { el.classList.add('reveal'); });
   if ('IntersectionObserver' in window) {
     var io = new IntersectionObserver(function (entries) {
@@ -56,4 +56,31 @@
       window.open('https://wa.me/254725452734?text=' + encodeURIComponent(text), '_blank', 'noopener');
     });
   }
+
+  // Before/after sliders
+  document.querySelectorAll('.ba').forEach(function (ba) {
+    var range = ba.querySelector('.ba-range');
+    var touched = false;
+    function set(v) { ba.style.setProperty('--pos', v); }
+    range.addEventListener('input', function () { touched = true; set(range.value); });
+    ['pointerdown', 'keydown'].forEach(function (ev) { range.addEventListener(ev, function () { touched = true; }); });
+    // Gentle demo sweep the first time the slider scrolls into view
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      var seen = new IntersectionObserver(function (es) {
+        if (!es[0].isIntersecting) return;
+        seen.disconnect();
+        var start = null, dur = 2600;
+        function step(t) {
+          if (touched) return;
+          if (start === null) start = t;
+          var p = Math.min((t - start) / dur, 1);
+          var v = 50 + Math.sin(p * Math.PI * 2) * 32 * (1 - p * 0.3);
+          set(v); range.value = v;
+          if (p < 1) requestAnimationFrame(step); else { set(50); range.value = 50; }
+        }
+        requestAnimationFrame(step);
+      }, { threshold: 0.5 });
+      seen.observe(ba);
+    }
+  });
 })();
