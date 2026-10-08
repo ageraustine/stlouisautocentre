@@ -301,3 +301,23 @@ figcaption{margin-top:.6rem;font-size:.9rem;color:var(--muted)}
 .ba-range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;-webkit-appearance:none;appearance:none}
 .ba:focus-within{outline:2px solid var(--orange)}
 .ba-card figcaption{margin-top:.8rem}
+
+/* ===== Animated emblem (piston · gear · spanner · car) ===== */
+.emb{position:relative;display:block;width:84px;aspect-ratio:1376/704;flex:none}
+.emb .l{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.emb .piston{animation:pump 1.6s ease-in-out infinite alternate}
+.emb .spanner{transform-origin:70.9% 62.5%;animation:wrench 3.2s ease-in-out infinite alternate}
+.emb .arc{animation:arcglow 2.4s ease-in-out infinite alternate}
+.emb .shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.75) 50%,transparent 62%) no-repeat;background-size:300% 100%;background-position:130% 0;-webkit-mask:url(assets/emblem/full.png) center/100% 100% no-repeat;mask:url(assets/emblem/full.png) center/100% 100% no-repeat;mix-blend-mode:soft-light;animation:shine 5s 1s ease-in-out infinite;pointer-events:none}
+@keyframes pump{from{transform:translate(-1.6%,-2.2%)}to{transform:translate(1%,1.5%)}}
+@keyframes wrench{from{transform:rotate(-5deg)}to{transform:rotate(4deg)}}
+@keyframes arcglow{from{filter:brightness(.95) drop-shadow(0 0 0 rgba(255,106,0,0))}to{filter:brightness(1.35) drop-shadow(0 0 6px rgba(255,120,20,.9))}}
+@keyframes shine{0%{background-position:130% 0}45%,100%{background-position:-30% 0}}
+.brand .emb{width:88px}
+.hero-logo{position:relative;aspect-ratio:1/1;height:auto;overflow:hidden;background:#000}
+.hero-logo .logo-text{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hero-logo .hero-emb{position:absolute;left:8.56%;top:10.5%;width:86%}
+.hero-logo .emb{width:100%}
+.footer .brand .emb{width:96px}
+@media (max-width:520px){.brand .emb{width:70px}}
+@media (prefers-reduced-motion:reduce){.emb .piston,.emb .spanner,.emb .arc,.emb .shine{animation:none}}
